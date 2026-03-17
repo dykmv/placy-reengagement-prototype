@@ -40,8 +40,8 @@ export default function CreateAutomationPage() {
           <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">Demo mode — switch scenario:</div>
           <Tabs value={scenario} onValueChange={(v) => setScenario(v as Scenario)}>
             <TabsList className="grid grid-cols-3">
-              <TabsTrigger value="setup">Setup Wizard</TabsTrigger>
-              <TabsTrigger value="activated">Just Activated</TabsTrigger>
+              <TabsTrigger value="setup">Agent Setup</TabsTrigger>
+              <TabsTrigger value="activated">Agent Active</TabsTrigger>
               <TabsTrigger value="results">First Results (Day 2)</TabsTrigger>
             </TabsList>
           </Tabs>
@@ -52,7 +52,7 @@ export default function CreateAutomationPage() {
       {scenario === "setup" && (
         <>
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold">Create Re-engagement Automation</h1>
+            <h1 className="text-2xl font-bold">Set Up Re-engagement Agent</h1>
             <div className="text-sm text-muted-foreground">Step {step} of 3</div>
           </div>
 
@@ -343,7 +343,7 @@ export default function CreateAutomationPage() {
 
               <Card>
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-base">Automation Summary</CardTitle>
+                  <CardTitle className="text-base">Agent Summary</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2 text-sm">
                   <div className="grid grid-cols-2 gap-y-2">
@@ -382,7 +382,7 @@ export default function CreateAutomationPage() {
                       Test with 50 leads
                     </Button>
                     <Button onClick={() => setScenario("activated")}>
-                      Activate all ({matchingLeads})
+                      Activate Agent ({matchingLeads})
                     </Button>
                   </div>
                 </CardContent>
@@ -403,9 +403,9 @@ export default function CreateAutomationPage() {
             <div className="h-16 w-16 rounded-full bg-green-100 flex items-center justify-center">
               <CheckCircle className="h-8 w-8 text-green-600" />
             </div>
-            <h1 className="text-2xl font-bold">Re-engagement Activated!</h1>
+            <h1 className="text-2xl font-bold">Re-engagement Agent Activated!</h1>
             <p className="text-muted-foreground max-w-md">
-              Your automation &quot;Sale Leads — Limassol&quot; is live. First messages will be sent tomorrow at 09:30.
+              Your agent automation &quot;Salequot;Sale Leads — Limassol&quot; is live. First messages will be sent tomorrow at 09:30.
             </p>
           </div>
 
@@ -434,9 +434,9 @@ export default function CreateAutomationPage() {
           </Card>
 
           <div className="flex gap-3">
-            <Link href="/automations"><Button>Go to Automations</Button></Link>
+            <Link href="/agents"><Button>Go to Agents</Button></Link>
             <Button variant="outline" onClick={() => { setScenario("setup"); setStep(1); setDealType("rent"); setInactivityDays("14"); }}>
-              Create Rental Automation
+              Set Up Rental Agent
             </Button>
           </div>
         </div>
@@ -528,7 +528,7 @@ export default function CreateAutomationPage() {
           </Card>
 
           <div className="flex gap-3">
-            <Link href="/automations"><Button>View Automations</Button></Link>
+            <Link href="/agents"><Button>View Agents</Button></Link>
             <Link href="/leads"><Button variant="outline">View All Leads</Button></Link>
           </div>
         </div>

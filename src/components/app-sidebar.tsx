@@ -16,21 +16,19 @@ import {
   SidebarSeparator,
 } from "@/components/ui/sidebar";
 import {
-  LayoutDashboard,
-  TrendingUp,
+  BarChart3,
   Users,
   MessageSquare,
-  BarChart3,
-  Zap,
+  TrendingUp,
+  Bot,
   Settings,
 } from "lucide-react";
 
 const mainNav = [
-  { title: "Dashboard", href: "/", icon: LayoutDashboard },
-  { title: "Trending Listing", href: "/trending", icon: TrendingUp },
+  { title: "Analytics", href: "/", icon: BarChart3 },
   { title: "Leads", href: "/leads", icon: Users },
   { title: "Conversations", href: "/conversations", icon: MessageSquare },
-  { title: "Analytics", href: "/analytics", icon: BarChart3 },
+  { title: "Trending Listing", href: "/trending", icon: TrendingUp },
 ];
 
 export function AppSidebar() {
@@ -73,14 +71,14 @@ export function AppSidebar() {
         <SidebarSeparator />
 
         <SidebarGroup>
-          <SidebarGroupLabel>Outbound</SidebarGroupLabel>
+          <SidebarGroupLabel>AI Agents</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <Link href="/automations">
-                  <SidebarMenuButton isActive={pathname.startsWith("/automations")}>
-                    <Zap className="h-4 w-4" />
-                    <span>Automations</span>
+                <Link href="/agents">
+                  <SidebarMenuButton isActive={pathname.startsWith("/agents")}>
+                    <Bot className="h-4 w-4" />
+                    <span>AI Agents</span>
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>

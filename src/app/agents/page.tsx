@@ -24,9 +24,9 @@ export default function AutomationsPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Automations</h1>
-        <Link href="/automations/create"><Button>
-            <Plus className="h-4 w-4 mr-2" /> Create Automation
+        <h1 className="text-2xl font-bold">AI Agents</h1>
+        <Link href="/agents/create"><Button>
+            <Plus className="h-4 w-4 mr-2" /> Set Up Agent
           </Button></Link>
       </div>
 
