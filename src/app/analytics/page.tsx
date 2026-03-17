@@ -59,12 +59,12 @@ export default function OverviewPage() {
           </div>
           <div className="flex items-center justify-between text-sm">
             <span>3 interested leads not yet contacted by agents (oldest: 2 days ago)</span>
-            <Link href="/reengagement/leads"><Button variant="outline" size="sm">View leads</Button></Link>
+            <Link href="/leads"><Button variant="outline" size="sm">View leads</Button></Link>
           </div>
           <Separator />
           <div className="flex items-center justify-between text-sm">
             <span>Automation &quot;Rental — Limassol&quot; — first-run results ready for review</span>
-            <Link href="/reengagement/automations"><Button variant="outline" size="sm">Review results</Button></Link>
+            <Link href="/automations"><Button variant="outline" size="sm">Review results</Button></Link>
           </div>
         </CardContent>
       </Card>
@@ -129,7 +129,7 @@ export default function OverviewPage() {
       <Card>
         <CardHeader className="pb-2 flex flex-row items-center justify-between">
           <CardTitle className="text-base">Active Automations</CardTitle>
-          <Link href="/reengagement/automations"><Button variant="outline" size="sm">Manage</Button></Link>
+          <Link href="/automations"><Button variant="outline" size="sm">Manage</Button></Link>
         </CardHeader>
         <CardContent>
           <div className="space-y-2">

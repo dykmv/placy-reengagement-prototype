@@ -25,7 +25,7 @@ export default function AutomationsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Automations</h1>
-        <Link href="/reengagement/automations/create"><Button>
+        <Link href="/automations/create"><Button>
             <Plus className="h-4 w-4 mr-2" /> Create Automation
           </Button></Link>
       </div>

@@ -1,9 +1,10 @@
 // Mock data for Placy Re-engagement Prototype — Cyprus market
 
-export type LeadStatus = "interested" | "callback_later" | "not_interested" | "not_reachable" | "pending";
-export type Channel = "whatsapp" | "voice" | "both";
+export type LeadStatus = "interested" | "callback_later" | "not_interested" | "not_reachable" | "pending" | "new" | "contacted" | "irrelevant";
+export type Channel = "whatsapp" | "voice" | "email" | "both";
 export type AutomationStatus = "active" | "paused" | "draft" | "complete";
 export type DealType = "sale" | "rent";
+export type LeadSource = "inbound" | "re-engagement";
 
 export interface Lead {
   id: string;
@@ -16,7 +17,8 @@ export interface Lead {
   interest: string;
   budget: string;
   agent: string;
-  source: string;
+  adSource: string;
+  leadSource: LeadSource;
   lastFollowUp: string;
   daysInactive: number;
   aiSummary?: string;
@@ -24,6 +26,31 @@ export interface Lead {
   contactChannel?: Channel;
   conversation?: ConversationMessage[];
   crmUpdated?: boolean;
+  humanNeeded?: boolean;
+  refNumber?: string;
+  property?: string;
+  location?: string;
+}
+
+// Inbound conversations (from Conversations page pattern)
+export interface Conversation {
+  id: string;
+  clientName: string;
+  phone: string;
+  channel: Channel;
+  intent: DealType | "rent_out" | "irrelevant" | "not_detected";
+  duration: string;
+  summary: string;
+  source: LeadSource;
+  adSource?: string;
+  humanNeeded: boolean;
+  updatedAt: string;
+  messages?: ConversationMessage[];
+  leadCreated?: boolean;
+  property?: string;
+  location?: string;
+  price?: string;
+  refNumber?: string;
 }
 
 export interface ConversationMessage {
@@ -85,7 +112,8 @@ export const MOCK_LEADS: Lead[] = [
     interest: "2-bed apartment",
     budget: "€280,000",
     agent: "Nikos Andreou",
-    source: "Facebook Ads",
+    adSource: "Facebook Ads",
+    leadSource: "re-engagement" as LeadSource,
     lastFollowUp: "2025-12-18",
     daysInactive: 89,
     aiSummary: "Lead confirmed active interest. Budget updated from €250K to €280K. Prefers ground floor with garden. Limassol, close to sea. Available to view properties next week. Speaks Russian and English.",
@@ -111,7 +139,8 @@ export const MOCK_LEADS: Lead[] = [
     interest: "2-bed apartment",
     budget: "€220,000",
     agent: "Maria Georgiou",
-    source: "Bazaraki",
+    adSource: "Bazaraki",
+    leadSource: "re-engagement" as LeadSource,
     lastFollowUp: "2025-12-22",
     daysInactive: 85,
     aiSummary: "Still looking for 2-bed in Limassol. Timeline: 3 months. Budget €220K. Prefers Germasogeia area. Speaks Russian.",
@@ -135,7 +164,8 @@ export const MOCK_LEADS: Lead[] = [
     interest: "Villa",
     budget: "€450,000",
     agent: "Nikos Andreou",
-    source: "Google Ads",
+    adSource: "Google Ads",
+    leadSource: "re-engagement" as LeadSource,
     lastFollowUp: "2025-12-05",
     daysInactive: 102,
     aiSummary: "Wants villa in Limassol, budget €400-500K. Relocating from UK for permanent residency. Ready to visit and view properties. Prefers modern style with pool.",
@@ -160,7 +190,8 @@ export const MOCK_LEADS: Lead[] = [
     interest: "Townhouse",
     budget: "€320,000",
     agent: "Elena Papadopoulou",
-    source: "Website",
+    adSource: "Website",
+    leadSource: "re-engagement" as LeadSource,
     lastFollowUp: "2026-01-03",
     daysInactive: 73,
     aiSummary: "Looking for townhouse in Paphos, Kato Paphos area. Budget €300-350K. For retirement. No rush — planning for next year.",
@@ -179,7 +210,8 @@ export const MOCK_LEADS: Lead[] = [
     interest: "3-bed apartment",
     budget: "€350,000",
     agent: "Nikos Andreou",
-    source: "Facebook Ads",
+    adSource: "Facebook Ads",
+    leadSource: "re-engagement" as LeadSource,
     lastFollowUp: "2025-12-28",
     daysInactive: 79,
     aiSummary: "Still interested but not ready to visit until June. Budget €350K for 3-bed in Limassol. Asked to be contacted again in May.",
@@ -197,7 +229,8 @@ export const MOCK_LEADS: Lead[] = [
     interest: "1-bed apartment",
     budget: "€1,200/mo",
     agent: "Maria Georgiou",
-    source: "Bazaraki",
+    adSource: "Bazaraki",
+    leadSource: "re-engagement" as LeadSource,
     lastFollowUp: "2026-02-25",
     daysInactive: 20,
     aiSummary: "Still looking for rental but lease on current apartment ends in May. Wants to be contacted in April.",
@@ -216,7 +249,8 @@ export const MOCK_LEADS: Lead[] = [
     interest: "2-bed apartment",
     budget: "€200,000",
     agent: "Nikos Andreou",
-    source: "Facebook Ads",
+    adSource: "Facebook Ads",
+    leadSource: "re-engagement" as LeadSource,
     lastFollowUp: "2025-11-15",
     daysInactive: 122,
     aiSummary: "Already purchased property elsewhere. Not looking anymore.",
@@ -234,7 +268,8 @@ export const MOCK_LEADS: Lead[] = [
     interest: "Villa",
     budget: "€500,000",
     agent: "Elena Papadopoulou",
-    source: "Google Ads",
+    adSource: "Google Ads",
+    leadSource: "re-engagement" as LeadSource,
     lastFollowUp: "2025-12-10",
     daysInactive: 97,
     aiSummary: "Plans changed — no longer considering Cyprus. Bought in Spain instead.",
@@ -252,7 +287,8 @@ export const MOCK_LEADS: Lead[] = [
     interest: "2-bed apartment",
     budget: "€1,500/mo",
     agent: "Maria Georgiou",
-    source: "Bazaraki",
+    adSource: "Bazaraki",
+    leadSource: "re-engagement" as LeadSource,
     lastFollowUp: "2026-02-01",
     daysInactive: 44,
     aiSummary: "Found rental already. Asked not to be contacted again.",
@@ -289,7 +325,8 @@ function generateNotReachableLeads(): Lead[] {
     interest: interests[i % interests.length],
     budget: i % 4 === 0 ? `€${800 + i * 50}/mo` : `€${150 + i * 15},000`,
     agent: agents[i % agents.length],
-    source: sources[i % sources.length],
+    adSource: sources[i % sources.length],
+    leadSource: "re-engagement" as LeadSource,
     lastFollowUp: `2025-${String(10 + (i % 3)).padStart(2, "0")}-${String(5 + (i % 25)).padStart(2, "0")}`,
     daysInactive: 60 + i * 3,
     contactDate: `2026-03-${String(15 + (i % 3)).padStart(2, "0")}`,
@@ -380,3 +417,208 @@ export function getLeadsByStatus(status: LeadStatus): Lead[] {
 export function getLeadById(id: string): Lead | undefined {
   return MOCK_LEADS.find(l => l.id === id);
 }
+
+// === INBOUND LEADS (from LQT) ===
+export const INBOUND_LEADS: Lead[] = [
+  {
+    id: "IL001",
+    name: "Natallia Sharkova",
+    phone: "+357 96 318 204",
+    status: "contacted",
+    dealType: "rent",
+    city: "Limassol",
+    interest: "3-bed apartment",
+    budget: "€1,200/mo",
+    agent: "Maria Georgiou",
+    adSource: "Bazaraki",
+    leadSource: "inbound",
+    lastFollowUp: "2026-03-13",
+    daysInactive: 4,
+    humanNeeded: true,
+    refNumber: "#14316",
+    property: "Apartment",
+    location: "Limassol, Agios Dimitrios",
+    aiSummary: "Interested in 3-bedroom apartment #14316 from Bazaraki. Family of 4 (husband + 2 sons), no pets. Available for viewing tomorrow. Requested agent follow-up.",
+    contactDate: "2026-03-13",
+    contactChannel: "whatsapp",
+    conversation: [
+      { sender: "lead", text: "Hi, I am interested in your advert on Bazaraki. bazaraki.com/adv/6130465 #14316", time: "10:18 PM" },
+      { sender: "bot", text: "Good evening, Natallia! Thank you for reaching out to us at 4 Buy and Sell! Who will be living in the property, and do you have any special requirements?", time: "10:19 PM" },
+      { sender: "lead", text: "Hi, we are considering it for ourselves: me, my husband and our 2 sons. Is it possible to view it somewhere tomorrow?", time: "10:20 PM" },
+      { sender: "bot", text: "Thank you for sharing, Natallia! Could you also let me know if you have any pets?", time: "10:21 PM" },
+      { sender: "lead", text: "No", time: "10:21 PM" },
+    ],
+  },
+  {
+    id: "IL002",
+    name: "Anastasia Rasputina",
+    phone: "+357 99 412 678",
+    status: "contacted",
+    dealType: "rent",
+    city: "Limassol",
+    interest: "4-bed house",
+    budget: "€2,500/mo",
+    agent: "Nikos Andreou",
+    adSource: "Bazaraki",
+    leadSource: "inbound",
+    lastFollowUp: "2026-03-13",
+    daysInactive: 4,
+    refNumber: "#18920",
+    property: "House",
+    location: "Limassol, Arcangelos",
+    aiSummary: "Inquired about 4-bedroom house for rent in Arcangelos area. Budget up to €2,500. Moving from Nicosia.",
+    contactDate: "2026-03-13",
+    contactChannel: "voice",
+  },
+  {
+    id: "IL003",
+    name: "Belal Almasry",
+    phone: "+357 96 555 321",
+    status: "new",
+    dealType: "rent",
+    city: "Limassol",
+    interest: "2-bed house",
+    budget: "€1,400/mo",
+    agent: "Elena Papadopoulou",
+    adSource: "Bazaraki",
+    leadSource: "inbound",
+    lastFollowUp: "2026-03-13",
+    daysInactive: 4,
+    property: "House",
+    location: "Limassol, Germasogeia",
+    aiSummary: "Interested in 2-bedroom detached house #14670. Family with kids. Looking for immediate move-in.",
+    contactDate: "2026-03-13",
+    contactChannel: "whatsapp",
+    humanNeeded: true,
+  },
+  {
+    id: "IL004",
+    name: "Elena Petrova",
+    phone: "+357 99 777 123",
+    status: "contacted",
+    dealType: "sale",
+    city: "Limassol",
+    interest: "Investment apartment",
+    budget: "€250,000",
+    agent: "Nikos Andreou",
+    adSource: "Spitogatos",
+    leadSource: "inbound",
+    lastFollowUp: "2026-03-13",
+    daysInactive: 4,
+    property: "Apartment",
+    location: "Limassol, Agios Dimitrios",
+    aiSummary: "Follow-up on investment apartments. Narrowed down to 2-bed in Agios Dimitrios. Budget €250K. Looking at ROI potential.",
+    contactDate: "2026-03-13",
+    contactChannel: "whatsapp",
+  },
+  {
+    id: "IL005",
+    name: "Andreas Papadopoulos",
+    phone: "+357 96 482 731",
+    status: "contacted",
+    dealType: "rent",
+    city: "Limassol",
+    interest: "2-bed apartment",
+    budget: "€1,400/mo",
+    agent: "Maria Georgiou",
+    adSource: "Bazaraki",
+    leadSource: "inbound",
+    lastFollowUp: "2026-03-13",
+    daysInactive: 4,
+    humanNeeded: true,
+    refNumber: "#82398",
+    property: "Apartment",
+    location: "Limassol, Neapolis",
+    aiSummary: "Wants to rent a 2-bedroom apartment in Limassol. Family expecting a baby. Need 2-3 bedrooms with 2 toilets.",
+    contactDate: "2026-03-13",
+    contactChannel: "voice",
+    conversation: [
+      { sender: "bot", text: "Hello! Thank you for calling MySpace Real Estate. How can I help you today?", time: "7:38 PM" },
+      { sender: "lead", text: "Hi, I'm looking for a 2 or 3 bedroom apartment in Limassol for rent. My wife is expecting so we need more space.", time: "7:38 PM" },
+      { sender: "bot", text: "Congratulations! What area in Limassol do you prefer, and what's your budget range?", time: "7:39 PM" },
+      { sender: "lead", text: "Neapolis or Mesa Geitonia. Budget up to 1400 euros. We need 2 toilets if possible.", time: "7:39 PM" },
+      { sender: "bot", text: "Perfect. I'll have our agent Maria reach out to you with some suitable options. When would be a good time to call?", time: "7:40 PM" },
+    ],
+  },
+  {
+    id: "IL006",
+    name: "James Wilson",
+    phone: "+44 79 8765 4321",
+    status: "contacted",
+    dealType: "sale",
+    city: "Limassol",
+    interest: "Villa",
+    budget: "€500,000",
+    agent: "Nikos Andreou",
+    adSource: "Google Ads",
+    leadSource: "inbound",
+    lastFollowUp: "2026-03-13",
+    daysInactive: 4,
+    humanNeeded: true,
+    property: "Villa",
+    location: "Limassol",
+    aiSummary: "UK buyer relocating to Cyprus. Looking for a villa with pool. Budget €500K. Ready to visit next month.",
+    contactDate: "2026-03-13",
+    contactChannel: "voice",
+  },
+  {
+    id: "IL007",
+    name: "Maria Ioannou",
+    phone: "+357 99 222 456",
+    status: "contacted",
+    dealType: "sale",
+    city: "Paphos",
+    interest: "Family house",
+    budget: "€350,000",
+    agent: "Elena Papadopoulou",
+    adSource: "Facebook Ads",
+    leadSource: "inbound",
+    lastFollowUp: "2026-03-13",
+    daysInactive: 4,
+    property: "House",
+    location: "Paphos, Kato Paphos",
+    aiSummary: "Looking for a family house in Paphos. 3 bedrooms, garden. Budget around €350K.",
+    contactDate: "2026-03-13",
+    contactChannel: "whatsapp",
+  },
+  {
+    id: "IL008",
+    name: "Nikos Georgiou",
+    phone: "+357 97 111 999",
+    status: "irrelevant",
+    dealType: "rent",
+    city: "Limassol",
+    interest: "",
+    budget: "",
+    agent: "",
+    adSource: "Bazaraki",
+    leadSource: "inbound",
+    lastFollowUp: "2026-03-13",
+    daysInactive: 4,
+    aiSummary: "Called about a listing but wrong number. Not interested in property.",
+    contactDate: "2026-03-13",
+    contactChannel: "voice",
+  },
+];
+
+// All leads combined
+export const ALL_LEADS: Lead[] = [...INBOUND_LEADS, ...MOCK_LEADS];
+
+// === CONVERSATIONS (combined inbound + outbound) ===
+export const MOCK_CONVERSATIONS: Conversation[] = [
+  // Inbound
+  { id: "C001", clientName: "Natallia Sharkova", phone: "+357 96 318 204", channel: "whatsapp", intent: "rent", duration: "13 msgs", summary: "Interested in 3-bedroom apartment #14316 from Bazaraki. Family of 4.", source: "inbound", adSource: "Bazaraki", humanNeeded: true, updatedAt: "10:18 PM", leadCreated: true, property: "Apartment", location: "Limassol", price: "€1,200/mo", refNumber: "#14316" },
+  { id: "C002", clientName: "Anastasia Rasputina", phone: "+357 99 412 678", channel: "voice", intent: "rent", duration: "3:42", summary: "Inquired about 4-bedroom house for rent in Arcangelos area.", source: "inbound", adSource: "Bazaraki", humanNeeded: false, updatedAt: "8:03 AM", property: "House", location: "Limassol", price: "€2,500/mo" },
+  { id: "C003", clientName: "Belal Almasry", phone: "+357 96 555 321", channel: "whatsapp", intent: "rent", duration: "17 msgs", summary: "Interested in 2-bedroom detached house #14670. Family with kids.", source: "inbound", adSource: "Bazaraki", humanNeeded: true, updatedAt: "7:11 PM", leadCreated: true, property: "House", location: "Limassol", price: "€1,400/mo" },
+  { id: "C004", clientName: "Elena Petrova", phone: "+357 99 777 123", channel: "whatsapp", intent: "sale", duration: "18 msgs", summary: "Follow-up on investment apartments. Narrowed down to Agios Dimitrios.", source: "inbound", adSource: "Spitogatos", humanNeeded: false, updatedAt: "7:30 PM", property: "Apartment", location: "Limassol", price: "€250,000" },
+  { id: "C005", clientName: "Andreas Papadopoulos", phone: "+357 96 482 731", channel: "voice", intent: "rent", duration: "2:02", summary: "Wants to rent a 2-bedroom apartment in Limassol. Family expecting a baby.", source: "inbound", adSource: "Bazaraki", humanNeeded: true, updatedAt: "7:38 PM", leadCreated: true, property: "Apartment", location: "Limassol", price: "€1,400/mo", refNumber: "#82398" },
+  { id: "C006", clientName: "Maria Ioannou", phone: "+357 99 222 456", channel: "whatsapp", intent: "sale", duration: "15 msgs", summary: "Looking for a family house in Paphos. 3 bedrooms, garden.", source: "inbound", adSource: "Facebook Ads", humanNeeded: false, updatedAt: "7:34 PM", property: "House", location: "Paphos", price: "€350,000" },
+  { id: "C007", clientName: "James Wilson", phone: "+44 79 8765 4321", channel: "voice", intent: "sale", duration: "1:59", summary: "UK buyer relocating to Cyprus. Looking for a villa with pool.", source: "inbound", adSource: "Google Ads", humanNeeded: true, updatedAt: "7:29 PM", property: "Villa", location: "Limassol", price: "€500,000" },
+  { id: "C008", clientName: "Nikos Georgiou", phone: "+357 97 111 999", channel: "voice", intent: "irrelevant", duration: "0:45", summary: "Called about a listing but wrong number. Not interested.", source: "inbound", humanNeeded: false, updatedAt: "7:28 PM" },
+  // Re-engagement outbound
+  { id: "C101", clientName: "Alexei Petrov", phone: "+357 99 456 789", channel: "whatsapp", intent: "sale", duration: "5 msgs", summary: "Re-engagement: Budget updated to €280K, ground floor with garden. Available next week.", source: "re-engagement", humanNeeded: false, updatedAt: "11:52 AM", leadCreated: true, property: "Apartment", location: "Limassol", price: "€280,000" },
+  { id: "C102", clientName: "Elena Volkova", phone: "+357 96 812 345", channel: "whatsapp", intent: "sale", duration: "3 msgs", summary: "Re-engagement: Still looking for 2-bed in Germasogeia. 3-month timeline.", source: "re-engagement", humanNeeded: false, updatedAt: "10:15 AM", property: "Apartment", location: "Limassol", price: "€220,000" },
+  { id: "C103", clientName: "James Smith", phone: "+44 79 1234 5678", channel: "voice", intent: "sale", duration: "2:15", summary: "Re-engagement: Wants villa €400-500K, relocating from UK. Ready to view.", source: "re-engagement", humanNeeded: false, updatedAt: "5:34 PM", property: "Villa", location: "Limassol", price: "€450,000" },
+  { id: "C104", clientName: "Dmitry Sokolov", phone: "+7 905 123 4567", channel: "whatsapp", intent: "sale", duration: "4 msgs", summary: "Re-engagement: Still interested but not ready until June. Callback in May.", source: "re-engagement", humanNeeded: false, updatedAt: "9:45 AM", property: "Apartment", location: "Limassol", price: "€350,000" },
+  { id: "C105", clientName: "George Papadopoulos", phone: "+357 96 111 222", channel: "whatsapp", intent: "not_detected", duration: "2 msgs", summary: "Re-engagement: Already purchased elsewhere. Not looking anymore.", source: "re-engagement", humanNeeded: false, updatedAt: "9:38 AM" },
+];

@@ -42,7 +42,7 @@ export default function DashboardPage() {
           <p className="text-sm text-muted-foreground">
             Based on similar agencies, 5-10% of these leads are still interested — that&apos;s potential revenue you&apos;re leaving on the table.
           </p>
-          <Link href="/reengagement/automations/create"><Button>Set Up Re-engagement</Button></Link>
+          <Link href="/automations/create"><Button>Set Up Re-engagement</Button></Link>
         </CardContent>
       </Card>
 

@@ -434,7 +434,7 @@ export default function CreateAutomationPage() {
           </Card>
 
           <div className="flex gap-3">
-            <Link href="/reengagement/automations"><Button>Go to Automations</Button></Link>
+            <Link href="/automations"><Button>Go to Automations</Button></Link>
             <Button variant="outline" onClick={() => { setScenario("setup"); setStep(1); setDealType("rent"); setInactivityDays("14"); }}>
               Create Rental Automation
             </Button>
@@ -490,7 +490,7 @@ export default function CreateAutomationPage() {
                       Agent: {lead.agent} · CRM: ✓ Updated · {lead.contactChannel === "whatsapp" ? "WhatsApp" : "Voice"}
                     </div>
                   </div>
-                  <Link href="/reengagement/leads"><Button variant="outline" size="sm">View</Button></Link>
+                  <Link href="/leads"><Button variant="outline" size="sm">View</Button></Link>
                 </div>
               ))}
             </CardContent>
@@ -528,8 +528,8 @@ export default function CreateAutomationPage() {
           </Card>
 
           <div className="flex gap-3">
-            <Link href="/reengagement/automations"><Button>View Automations</Button></Link>
-            <Link href="/reengagement/leads"><Button variant="outline">View All Leads</Button></Link>
+            <Link href="/automations"><Button>View Automations</Button></Link>
+            <Link href="/leads"><Button variant="outline">View All Leads</Button></Link>
           </div>
         </div>
       )}
