@@ -3,7 +3,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Plus, Pause, Play } from "lucide-react";
+import { Plus, Pause, Play, Upload, History } from "lucide-react";
 import { MOCK_AUTOMATIONS } from "@/lib/mock-data";
 import Link from "next/link";
 import { useState } from "react";
@@ -25,9 +25,10 @@ export default function AutomationsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">AI Agents</h1>
-        <Link href="/agents/create"><Button>
-            <Plus className="h-4 w-4 mr-2" /> Set Up Agent
-          </Button></Link>
+        <div className="flex gap-2">
+          <Link href="/agents/upload"><Button variant="outline"><Upload className="h-4 w-4 mr-2" />Upload CSV</Button></Link>
+          <Link href="/agents/create"><Button><Plus className="h-4 w-4 mr-2" />Set Up Agent</Button></Link>
+        </div>
       </div>
 
       <div className="space-y-4">
@@ -61,7 +62,7 @@ export default function AutomationsPage() {
                       <><Play className="h-3 w-3 mr-1" /> Resume</>
                     )}
                   </Button>
-                  <Button variant="outline" size="sm">Edit</Button>
+                  <Link href="/agents/history"><Button variant="outline" size="sm"><History className="h-3 w-3 mr-1" />Runs</Button></Link>
                 </div>
               </div>
 
