@@ -24,14 +24,12 @@ const statusConfig: Record<string, { label: string; className: string }> = {
 };
 
 export default function LeadsPage() {
-  const [sourceFilter, setSourceFilter] = useState<string>("all");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [dealFilter, setDealFilter] = useState<string>("all");
   const [search, setSearch] = useState("");
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
 
   const filteredLeads = ALL_LEADS.filter(l => {
-    if (sourceFilter !== "all" && l.leadSource !== sourceFilter) return false;
     if (statusFilter !== "all" && l.status !== statusFilter) return false;
     if (dealFilter !== "all" && l.dealType !== dealFilter) return false;
     if (search && !l.name.toLowerCase().includes(search.toLowerCase()) && !l.phone.includes(search)) return false;
@@ -49,14 +47,6 @@ export default function LeadsPage() {
       </div>
 
       <div className="flex gap-3 flex-wrap">
-        <Select value={sourceFilter} onValueChange={(v) => v && setSourceFilter(v)}>
-          <SelectTrigger className="w-44"><SelectValue placeholder="Source" /></SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All sources</SelectItem>
-            <SelectItem value="inbound">Inbound (LQT)</SelectItem>
-            <SelectItem value="re-engagement">Re-engagement</SelectItem>
-          </SelectContent>
-        </Select>
         <Select value={statusFilter} onValueChange={(v) => v && setStatusFilter(v)}>
           <SelectTrigger className="w-40"><SelectValue placeholder="Status" /></SelectTrigger>
           <SelectContent>
@@ -94,7 +84,7 @@ export default function LeadsPage() {
                 <TableHead>Location</TableHead>
                 <TableHead>Price</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead>Source</TableHead>
+                <TableHead>Channel</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -107,7 +97,7 @@ export default function LeadsPage() {
                   <TableCell className="text-sm">{lead.location || lead.city}</TableCell>
                   <TableCell className="text-sm">{lead.budget}</TableCell>
                   <TableCell><Badge className={statusConfig[lead.status]?.className || "bg-gray-100"}>{statusConfig[lead.status]?.label || lead.status}</Badge></TableCell>
-                  <TableCell><Badge variant="outline" className="text-xs">{lead.leadSource === "inbound" ? "Inbound" : "Re-engage"}</Badge></TableCell>
+                  <TableCell className="text-sm capitalize">{lead.contactChannel || "—"}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

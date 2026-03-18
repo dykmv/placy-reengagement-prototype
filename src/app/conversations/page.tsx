@@ -27,7 +27,7 @@ const intentBadge: Record<string, { label: string; className: string }> = {
 
 export default function ConversationsPage() {
   const [channelFilter, setChannelFilter] = useState<string>("all");
-  const [sourceFilter, setSourceFilter] = useState<string>("all");
+  // sourceFilter removed — re-engagement only
   const [intentFilter, setIntentFilter] = useState<string>("all");
   const [humanOnly, setHumanOnly] = useState(false);
   const [search, setSearch] = useState("");
@@ -35,7 +35,7 @@ export default function ConversationsPage() {
 
   const filtered = MOCK_CONVERSATIONS.filter(c => {
     if (channelFilter !== "all" && c.channel !== channelFilter) return false;
-    if (sourceFilter !== "all" && c.source !== sourceFilter) return false;
+    // Only re-engagement conversations
     if (intentFilter !== "all" && c.intent !== intentFilter) return false;
     if (humanOnly && !c.humanNeeded) return false;
     if (search && !c.clientName.toLowerCase().includes(search.toLowerCase()) && !c.phone.includes(search)) return false;
@@ -63,13 +63,6 @@ export default function ConversationsPage() {
           </Button>
         ))}
         <Separator orientation="vertical" className="h-6" />
-        {/* Source pills */}
-        {["all", "inbound", "re-engagement"].map(src => (
-          <Button key={src} size="sm" variant={sourceFilter === src ? "default" : "outline"} onClick={() => setSourceFilter(src)} className="text-xs">
-            {src === "all" ? "All" : src === "inbound" ? "Inbound" : "Re-engagement"}
-          </Button>
-        ))}
-        <Separator orientation="vertical" className="h-6" />
         <Button size="sm" variant={humanOnly ? "default" : "outline"} onClick={() => setHumanOnly(!humanOnly)} className="text-xs">
           👤 Human needed
         </Button>
@@ -87,7 +80,7 @@ export default function ConversationsPage() {
                 <TableHead>Intent</TableHead>
                 <TableHead>Duration</TableHead>
                 <TableHead>Summary</TableHead>
-                <TableHead className="w-20">Source</TableHead>
+                {/* Source column removed — re-engagement only */}
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -107,11 +100,7 @@ export default function ConversationsPage() {
                   </TableCell>
                   <TableCell className="text-sm text-muted-foreground">{conv.duration}</TableCell>
                   <TableCell className="text-sm text-muted-foreground max-w-[250px] truncate">{conv.summary}</TableCell>
-                  <TableCell>
-                    <Badge variant="outline" className="text-[10px]">
-                      {conv.source === "inbound" ? "IN" : "RE"}
-                    </Badge>
-                  </TableCell>
+                  {/* Source badge removed */}
                 </TableRow>
               ))}
               {filtered.length === 0 && (

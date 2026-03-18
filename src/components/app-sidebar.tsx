@@ -19,7 +19,6 @@ import {
   BarChart3,
   Users,
   MessageSquare,
-  TrendingUp,
   Bot,
   Settings,
 } from "lucide-react";
@@ -28,7 +27,6 @@ const mainNav = [
   { title: "Analytics", href: "/", icon: BarChart3 },
   { title: "Leads", href: "/leads", icon: Users },
   { title: "Conversations", href: "/conversations", icon: MessageSquare },
-  { title: "Trending Listing", href: "/trending", icon: TrendingUp },
 ];
 
 export function AppSidebar() {

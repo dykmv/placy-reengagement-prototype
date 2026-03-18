@@ -418,8 +418,14 @@ export function getLeadById(id: string): Lead | undefined {
   return MOCK_LEADS.find(l => l.id === id);
 }
 
-// === INBOUND LEADS (from LQT) ===
-export const INBOUND_LEADS: Lead[] = [
+// === HELPER: get leads by run date ===
+export function getLeadsByRunDate(date: string): Lead[] {
+  return MOCK_LEADS.filter(l => l.contactDate === date);
+}
+
+// Removed: INBOUND_LEADS (LQT not in this prototype)
+// Kept for reference:
+const _REMOVED_INBOUND_LEADS = [
   {
     id: "IL001",
     name: "Natallia Sharkova",
@@ -601,21 +607,11 @@ export const INBOUND_LEADS: Lead[] = [
   },
 ];
 
-// All leads combined
-export const ALL_LEADS: Lead[] = [...INBOUND_LEADS, ...MOCK_LEADS];
+// All leads = re-engagement only
+export const ALL_LEADS: Lead[] = MOCK_LEADS;
 
-// === CONVERSATIONS (combined inbound + outbound) ===
+// === CONVERSATIONS (re-engagement only) ===
 export const MOCK_CONVERSATIONS: Conversation[] = [
-  // Inbound
-  { id: "C001", clientName: "Natallia Sharkova", phone: "+357 96 318 204", channel: "whatsapp", intent: "rent", duration: "13 msgs", summary: "Interested in 3-bedroom apartment #14316 from Bazaraki. Family of 4.", source: "inbound", adSource: "Bazaraki", humanNeeded: true, updatedAt: "10:18 PM", leadCreated: true, property: "Apartment", location: "Limassol", price: "€1,200/mo", refNumber: "#14316" },
-  { id: "C002", clientName: "Anastasia Rasputina", phone: "+357 99 412 678", channel: "voice", intent: "rent", duration: "3:42", summary: "Inquired about 4-bedroom house for rent in Arcangelos area.", source: "inbound", adSource: "Bazaraki", humanNeeded: false, updatedAt: "8:03 AM", property: "House", location: "Limassol", price: "€2,500/mo" },
-  { id: "C003", clientName: "Belal Almasry", phone: "+357 96 555 321", channel: "whatsapp", intent: "rent", duration: "17 msgs", summary: "Interested in 2-bedroom detached house #14670. Family with kids.", source: "inbound", adSource: "Bazaraki", humanNeeded: true, updatedAt: "7:11 PM", leadCreated: true, property: "House", location: "Limassol", price: "€1,400/mo" },
-  { id: "C004", clientName: "Elena Petrova", phone: "+357 99 777 123", channel: "whatsapp", intent: "sale", duration: "18 msgs", summary: "Follow-up on investment apartments. Narrowed down to Agios Dimitrios.", source: "inbound", adSource: "Spitogatos", humanNeeded: false, updatedAt: "7:30 PM", property: "Apartment", location: "Limassol", price: "€250,000" },
-  { id: "C005", clientName: "Andreas Papadopoulos", phone: "+357 96 482 731", channel: "voice", intent: "rent", duration: "2:02", summary: "Wants to rent a 2-bedroom apartment in Limassol. Family expecting a baby.", source: "inbound", adSource: "Bazaraki", humanNeeded: true, updatedAt: "7:38 PM", leadCreated: true, property: "Apartment", location: "Limassol", price: "€1,400/mo", refNumber: "#82398" },
-  { id: "C006", clientName: "Maria Ioannou", phone: "+357 99 222 456", channel: "whatsapp", intent: "sale", duration: "15 msgs", summary: "Looking for a family house in Paphos. 3 bedrooms, garden.", source: "inbound", adSource: "Facebook Ads", humanNeeded: false, updatedAt: "7:34 PM", property: "House", location: "Paphos", price: "€350,000" },
-  { id: "C007", clientName: "James Wilson", phone: "+44 79 8765 4321", channel: "voice", intent: "sale", duration: "1:59", summary: "UK buyer relocating to Cyprus. Looking for a villa with pool.", source: "inbound", adSource: "Google Ads", humanNeeded: true, updatedAt: "7:29 PM", property: "Villa", location: "Limassol", price: "€500,000" },
-  { id: "C008", clientName: "Nikos Georgiou", phone: "+357 97 111 999", channel: "voice", intent: "irrelevant", duration: "0:45", summary: "Called about a listing but wrong number. Not interested.", source: "inbound", humanNeeded: false, updatedAt: "7:28 PM" },
-  // Re-engagement outbound
   { id: "C101", clientName: "Alexei Petrov", phone: "+357 99 456 789", channel: "whatsapp", intent: "sale", duration: "5 msgs", summary: "Re-engagement: Budget updated to €280K, ground floor with garden. Available next week.", source: "re-engagement", humanNeeded: false, updatedAt: "11:52 AM", leadCreated: true, property: "Apartment", location: "Limassol", price: "€280,000" },
   { id: "C102", clientName: "Elena Volkova", phone: "+357 96 812 345", channel: "whatsapp", intent: "sale", duration: "3 msgs", summary: "Re-engagement: Still looking for 2-bed in Germasogeia. 3-month timeline.", source: "re-engagement", humanNeeded: false, updatedAt: "10:15 AM", property: "Apartment", location: "Limassol", price: "€220,000" },
   { id: "C103", clientName: "James Smith", phone: "+44 79 1234 5678", channel: "voice", intent: "sale", duration: "2:15", summary: "Re-engagement: Wants villa €400-500K, relocating from UK. Ready to view.", source: "re-engagement", humanNeeded: false, updatedAt: "5:34 PM", property: "Villa", location: "Limassol", price: "€450,000" },
